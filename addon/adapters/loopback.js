@@ -1,7 +1,10 @@
 import DS from 'ember-data';
 
 export default DS.RESTAdapter.extend({
-    namespace: 'api'
+    namespace: function () {
+      var config = this.get('loopbackConfig');
+      return config.namespace ? config.namespace : 'api';
+    }.property()
   , host: function () {
       var config = this.get('loopbackConfig');
       return config.host;
@@ -9,6 +12,7 @@ export default DS.RESTAdapter.extend({
   , pathForType: function (type) {
       return type;
     }
+
   , findQuery: function (store, type, query) {
       var url = this.buildURL(type.typeKey) + '?filter=' + JSON.stringify(query);
 
@@ -24,5 +28,12 @@ export default DS.RESTAdapter.extend({
 
 
       });
+    }
+
+  , createRecord: function (store, type, snapshot) {
+
+      var data = snapshot.get('_inFlightAttributes');
+      return this.ajax(this.buildURL(type.typeKey, null, snapshot), "POST", { data: data });
+
     }
 });
