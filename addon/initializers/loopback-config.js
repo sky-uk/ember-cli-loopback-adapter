@@ -1,3 +1,6 @@
+import DS from 'ember-data';
+import aggregateQuery from 'ember-cli-loopback-adapter/query/aggregate';
+
 export function initialize(container, app) {
 
   var config = app.get('loopback');
@@ -10,6 +13,12 @@ export function initialize(container, app) {
   app.inject('route', 'loopbackConfig', 'config:loopback');
   app.inject('controller', 'loopbackConfig', 'config:loopback');
   app.inject('adapter', 'loopbackConfig', 'config:loopback');
+
+  DS.Store.reopen({
+    aggregate: function (type, query) {
+      return aggregateQuery(this, config, type, query);
+    }
+  });
 
 }
 
