@@ -32,7 +32,7 @@ export default DS.RESTAdapter.extend({
 
   , createRecord: function (store, type, snapshot) {
 
-      var data = snapshot.get('_inFlightAttributes');
+      var data = snapshot.record.get('_inFlightAttributes');
       return this.ajax(this.buildURL(type.typeKey, null, snapshot), "POST", { data: data });
 
     }
