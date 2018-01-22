@@ -1,3 +1,5 @@
+# DECOMMISSIONED
+
 # Ember-cli-loopback-adapter
 
 This README outlines the details of collaborating on this Ember addon.
